@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Megafone Bluetooth - Fale no Auto-falante</title>
+    <title>Sol🌞-micro - Monitor de Voz</title>
     <style>
         * {
             margin: 0;
@@ -46,26 +46,26 @@
             margin-bottom: 25px;
         }
 
-        /* Botão principal estilo megafone */
+        /* Botão principal estilo sol */
         .mic-button {
             width: 180px;
             height: 180px;
             margin: 20px auto;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #f59e0b, #eab308);
             border-radius: 50%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+            box-shadow: 0 10px 30px rgba(245,158,11,0.4);
             transition: all 0.2s ease;
             border: 4px solid white;
         }
 
         .mic-button:active {
             transform: scale(0.95);
-            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+            box-shadow: 0 5px 15px rgba(245,158,11,0.4);
         }
 
         .mic-icon {
@@ -94,7 +94,7 @@
         .volume-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #4ade80, #fbbf24, #ef4444);
+            background: linear-gradient(90deg, #fbbf24, #f59e0b, #ea580c);
             transition: width 0.05s linear;
             border-radius: 12px;
         }
@@ -138,7 +138,7 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #667eea;
+            background: #f59e0b;
             cursor: pointer;
             box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
@@ -169,7 +169,7 @@
         }
 
         .status-dot.active {
-            background: #4ade80;
+            background: #fbbf24;
         }
 
         /* Botões */
@@ -186,7 +186,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #f59e0b, #eab308);
             color: white;
         }
 
@@ -224,12 +224,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>🔊 Megafone BT</h1>
-        <div class="sub">Fale e ouça no auto-falante do celular</div>
+        <h1>☀️ Sol🌞-micro</h1>
+        <div class="sub">🌞 Sua voz em tempo real no auto-falante</div>
 
-        <!-- Botão principal (estilo megafone) -->
+        <!-- Botão principal estilo sol -->
         <div class="mic-button" id="micButton">
-            <div class="mic-icon">🎤</div>
+            <div class="mic-icon">🌞</div>
             <div class="mic-text">FALAR</div>
         </div>
 
@@ -271,21 +271,21 @@
         </div>
 
         <!-- Botão de ligar/desligar -->
-        <button class="btn-primary" id="enableBtn">🎤 ATIVAR MEGAFONE</button>
+        <button class="btn-primary" id="enableBtn">🌞 ATIVAR Sol-micro</button>
         <button class="btn-danger hidden" id="disableBtn">⏹ DESLIGAR</button>
 
         <div class="warning">
-            <strong>📱 Como usar no celular:</strong><br>
-            • Clique em "ATIVAR MEGAFONE" e permita o microfone<br>
+            <strong>📱 Como usar o Sol🌞-micro:</strong><br>
+            • Clique em "ATIVAR Sol-micro" e permita o microfone<br>
             • Fale normalmente - sua voz sai no auto-falante<br>
+            • Segure o botão ☀️ central para falar (Push-to-Talk)<br>
             • Funciona com e sem fone Bluetooth<br>
-            • Mantenha o celular longe do rosto para evitar eco<br>
-            • Use o botão central como "Push-to-Talk"
+            • Perfeito para ouvir sua voz em tempo real
         </div>
 
         <footer>
-            🎯 Tempo real | Baixa latência | Sem ruído<br>
-            ✅ Perfeito para Bluetooth e auto-falante do celular
+            🎯 Sol🌞-micro | Tempo real | Baixa latência<br>
+            ✅ Áudio cristalino no auto-falante do celular
         </footer>
     </div>
 
@@ -351,7 +351,6 @@
             
             volumeBar.style.width = percent + '%';
             
-            // Se estiver em modo push-to-talk, mostra visualmente
             if (isPushing && percent > 5) {
                 micButton.style.transform = 'scale(0.98)';
             } else if (!isPushing) {
@@ -361,31 +360,28 @@
             animationId = requestAnimationFrame(updateVolumeMeter);
         }
 
-        // Inicia o sistema (abre microfone e configura)
+        // Inicia o sistema
         async function initAudio() {
             if (isActive) return;
 
             try {
                 statusText.textContent = 'Solicitando microfone...';
                 
-                // Configuração para mobile (otimizado)
                 mediaStream = await navigator.mediaDevices.getUserMedia({ 
                     audio: {
-                        echoCancellation: false,      // Desliga cancelamento de eco (para ouvir sua voz)
-                        noiseSuppression: false,      // Sem supressão (voz mais natural)
-                        autoGainControl: false,       // Controle manual
-                        sampleRate: 44100,            // Qualidade CD
-                        latency: 0.005                // Latência mínima (5ms)
+                        echoCancellation: false,
+                        noiseSuppression: false,
+                        autoGainControl: false,
+                        sampleRate: 44100,
+                        latency: 0.005
                     } 
                 });
                 
-                // Cria contexto com latência ultra baixa para mobile
                 audioContext = new (window.AudioContext || window.webkitAudioContext)({
                     latencyHint: 'interactive',
                     sampleRate: 44100
                 });
                 
-                // Nós de processamento
                 analyserNode = audioContext.createAnalyser();
                 analyserNode.fftSize = 256;
                 
@@ -395,7 +391,6 @@
                 delayNode = audioContext.createDelay(0.05);
                 delayNode.delayTime.value = delaySlider.value / 1000;
                 
-                // Conexão: Microfone -> Delay -> Gain -> Destino (auto-falante)
                 sourceNode = audioContext.createMediaStreamSource(mediaStream);
                 sourceNode.connect(delayNode);
                 delayNode.connect(gainNode);
@@ -406,18 +401,18 @@
                 
                 isActive = true;
                 statusDot.classList.add('active');
-                statusText.textContent = '✅ Megafone ATIVO - Fale!';
+                statusText.textContent = '✅ Sol🌞-micro ATIVO - Fale!';
                 enableBtn.classList.add('hidden');
                 disableBtn.classList.remove('hidden');
                 
                 updateVolumeMeter();
                 
-                console.log('✅ Sistema ativo! Voz saindo no auto-falante');
+                console.log('✅ Sol🌞-micro ativo! Voz saindo no auto-falante');
                 
             } catch (error) {
                 console.error('Erro:', error);
                 statusText.textContent = '❌ Erro: Permissão negada';
-                alert('Permita o acesso ao microfone para usar o megafone!');
+                alert('Permita o acesso ao microfone para usar o Sol🌞-micro!');
             }
         }
 
@@ -452,14 +447,14 @@
             micButton.style.transform = 'scale(1)';
         }
 
-        // Push-to-Talk: só sai som enquanto segura o botão
+        // Push-to-Talk
         function setupPushToTalk() {
             if (!gainNode) return;
             
             micButton.addEventListener('mousedown', () => {
                 if (isActive && gainNode) {
                     isPushing = true;
-                    gainNode.gain.value = volumeSlider.value / 100;  // Volume normal
+                    gainNode.gain.value = volumeSlider.value / 100;
                     micButton.style.opacity = '0.9';
                 }
             });
@@ -467,12 +462,11 @@
             micButton.addEventListener('mouseup', () => {
                 if (isActive && gainNode) {
                     isPushing = false;
-                    gainNode.gain.value = 0;  // Muda o som
+                    gainNode.gain.value = 0;
                     micButton.style.opacity = '1';
                 }
             });
             
-            // Para toque em mobile
             micButton.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 if (isActive && gainNode) {
@@ -492,11 +486,9 @@
             });
         }
 
-        // Eventos dos botões
         enableBtn.addEventListener('click', initAudio);
         disableBtn.addEventListener('click', stopAudio);
         
-        // Configura push-to-talk após iniciar
         const checkAndSetupPTT = setInterval(() => {
             if (isActive && gainNode && !micButton.hasListener) {
                 setupPushToTalk();
@@ -505,12 +497,10 @@
             }
         }, 100);
 
-        // Previne tela adormecer no mobile
-        let wakeLock = null;
         async function requestWakeLock() {
             try {
                 if ('wakeLock' in navigator) {
-                    wakeLock = await navigator.wakeLock.request('screen');
+                    await navigator.wakeLock.request('screen');
                     console.log('Tela mantida ativa');
                 }
             } catch(err) {
@@ -520,7 +510,7 @@
         
         enableBtn.addEventListener('click', requestWakeLock);
         
-        console.log('📱 App pronto para mobile! Toque no botão azul e fale');
+        console.log('☀️ Sol🌞-micro pronto! Toque no botão e fale');
     </script>
 </body>
 </html>
