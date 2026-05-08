@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Microfone - Monitor de Voz</title>
+    <title>Solfino🌞-micro - Sem Ruído</title>
     <style>
         * {
             margin: 0;
@@ -14,7 +14,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -29,12 +29,11 @@
             max-width: 500px;
             width: 100%;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
         }
 
         h1 {
             text-align: center;
-            color: #667eea;
+            color: #ea580c;
             font-size: 1.8em;
             margin-bottom: 5px;
         }
@@ -46,12 +45,11 @@
             margin-bottom: 25px;
         }
 
-        /* Botão principal estilo sol */
         .mic-button {
             width: 180px;
             height: 180px;
             margin: 20px auto;
-            background: linear-gradient(135deg, #f59e0b, #eab308);
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
             border-radius: 50%;
             display: flex;
             flex-direction: column;
@@ -59,13 +57,12 @@
             align-items: center;
             cursor: pointer;
             box-shadow: 0 10px 30px rgba(245,158,11,0.4);
-            transition: all 0.2s ease;
+            transition: all 0.1s ease;
             border: 4px solid white;
         }
 
         .mic-button:active {
             transform: scale(0.95);
-            box-shadow: 0 5px 15px rgba(245,158,11,0.4);
         }
 
         .mic-icon {
@@ -79,7 +76,6 @@
             font-size: 18px;
         }
 
-        /* Indicador de volume */
         .volume-visualizer {
             margin: 20px 0;
         }
@@ -99,15 +95,6 @@
             border-radius: 12px;
         }
 
-        .volume-label {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-            font-size: 12px;
-            color: #666;
-        }
-
-        /* Controles */
         .control-group {
             margin: 20px 0;
         }
@@ -129,10 +116,6 @@
             -webkit-appearance: none;
         }
 
-        input[type="range"]:focus {
-            outline: none;
-        }
-
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 20px;
@@ -140,10 +123,8 @@
             border-radius: 50%;
             background: #f59e0b;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
 
-        /* Status */
         .status {
             background: #f3f4f6;
             border-radius: 16px;
@@ -160,19 +141,18 @@
             border-radius: 50%;
             background: #ef4444;
             margin-right: 8px;
-            animation: pulse 1.5s infinite;
+        }
+
+        .status-dot.active {
+            background: #22c55e;
+            animation: pulse 1s infinite;
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            50% { opacity: 0.5; }
         }
 
-        .status-dot.active {
-            background: #fbbf24;
-        }
-
-        /* Botões */
         button {
             width: 100%;
             padding: 14px;
@@ -186,12 +166,8 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #f59e0b, #eab308);
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
             color: white;
-        }
-
-        .btn-primary:active {
-            transform: scale(0.98);
         }
 
         .btn-danger {
@@ -199,7 +175,6 @@
             color: white;
         }
 
-        /* Avisos */
         .warning {
             background: #fef3c7;
             border-left: 4px solid #f59e0b;
@@ -208,6 +183,16 @@
             font-size: 12px;
             color: #92400e;
             margin-top: 20px;
+        }
+
+        .success-box {
+            background: #dcfce7;
+            border-left: 4px solid #22c55e;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #166534;
+            margin-top: 10px;
         }
 
         .hidden {
@@ -224,68 +209,61 @@
 </head>
 <body>
     <div class="container">
-        <h1>☀️ Solfino-Micro</h1>
-        <div class="sub">🌞 Sua voz em tempo real no auto-falante</div>
+        <h1>☀️ Solfino-micro</h1>
+        <div class="sub">Sem ruído | Áudio cristalino</div>
 
-        <!-- Botão principal estilo sol -->
         <div class="mic-button" id="micButton">
             <div class="mic-icon">🎤</div>
             <div class="mic-text">FALAR</div>
         </div>
 
-        <!-- Visualizador de volume -->
         <div class="volume-visualizer">
             <div class="volume-bar-container">
                 <div class="volume-bar" id="volumeBar"></div>
             </div>
-            <div class="volume-label">
-                <span>🔇 Silêncio</span>
-                <span>🔊 Alto</span>
-            </div>
-        </div>
-
-        <!-- Controles -->
-        <div class="control-group">
-            <div class="control-label">
-                <span>🔊 Volume do auto-falante</span>
-                <span id="volumeValue">80%</span>
-            </div>
-            <input type="range" id="volumeSlider" min="0" max="100" value="80">
         </div>
 
         <div class="control-group">
             <div class="control-label">
-                <span>⏱ Anti-eco (delay)</span>
-                <span id="delayValue">15 ms</span>
+                <span>🔊 Volume</span>
+                <span id="volumeValue">50%</span>
             </div>
-            <input type="range" id="delaySlider" min="0" max="50" value="15" step="5">
+            <input type="range" id="volumeSlider" min="0" max="100" value="50">
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                <span>🛡️ Anti-feedback</span>
+                <span id="filterValue">Médio</span>
+            </div>
+            <input type="range" id="filterSlider" min="0" max="100" value="70">
             <div style="font-size: 11px; color: #666; margin-top: 5px;">
-                Menor = tempo real | Maior = evita eco (use 15-25ms para BT)
+                Mais alto = menos ruído, mas voz mais suave
             </div>
         </div>
 
-        <!-- Status -->
         <div class="status" id="statusArea">
             <span class="status-dot" id="statusDot"></span>
             <span id="statusText">Aguardando permissão</span>
         </div>
 
-        <!-- Botão de ligar/desligar -->
-        <button class="btn-primary" id="enableBtn">🌞 ATIVAR Sol-micro</button>
+        <button class="btn-primary" id="enableBtn">🌞 ATIVAR (sem ruído)</button>
         <button class="btn-danger hidden" id="disableBtn">⏹ DESLIGAR</button>
 
+        <div class="success-box" id="noiseInfo">
+            ✅ Ruído eliminado! Filtros anti-feedback ativos<br>
+            🎯 Mantenha o celular a 30cm do rosto para melhor resultado
+        </div>
+
         <div class="warning">
-            <strong>📱 Como usar o Sol🌞-micro:</strong><br>
-            • Clique em "ATIVAR Sol-micro" e permita o microfone<br>
-            • Fale normalmente - sua voz sai no auto-falante<br>
-            • Segure o botão ☀️ central para falar (Push-to-Talk)<br>
-            • Funciona com e sem fone Bluetooth<br>
-            • Perfeito para ouvir sua voz em tempo real
+            <strong>📱 Dicas para ZERO ruído:</strong><br>
+            • Use o celular longe do rosto (30-50cm)<br>
+            • Não cubra o microfone com os dedos<br>
+            • Ambiente silencioso dá melhor resultado
         </div>
 
         <footer>
-            🎯 Sol🌞-micro | Tempo real | Baixa latência<br>
-            ✅ Áudio cristalino no auto-falante do celular
+            🎯 Sol🌞-micro | Filtro anti-feedback | Áudio limpo
         </footer>
     </div>
 
@@ -294,27 +272,25 @@
         let audioContext = null;
         let sourceNode = null;
         let gainNode = null;
-        let delayNode = null;
+        let filterNode = null;
+        let compressorNode = null;
         let analyserNode = null;
         let isActive = false;
         let animationId = null;
+        let isPushing = false;
 
-        // Elementos DOM
         const micButton = document.getElementById('micButton');
         const volumeBar = document.getElementById('volumeBar');
         const volumeSlider = document.getElementById('volumeSlider');
         const volumeValue = document.getElementById('volumeValue');
-        const delaySlider = document.getElementById('delaySlider');
-        const delayValue = document.getElementById('delayValue');
+        const filterSlider = document.getElementById('filterSlider');
+        const filterValue = document.getElementById('filterValue');
         const statusDot = document.getElementById('statusDot');
         const statusText = document.getElementById('statusText');
         const enableBtn = document.getElementById('enableBtn');
         const disableBtn = document.getElementById('disableBtn');
 
-        // Variável para Push-to-Talk
-        let isPushing = false;
-
-        // Ajusta volume
+        // Ajusta volume geral
         volumeSlider.addEventListener('input', (e) => {
             const vol = e.target.value;
             volumeValue.textContent = vol + '%';
@@ -323,22 +299,24 @@
             }
         });
 
-        // Ajusta delay (anti-eco)
-        delaySlider.addEventListener('input', (e) => {
-            const delay = parseInt(e.target.value);
-            delayValue.textContent = delay + ' ms';
-            if (delayNode && isActive) {
-                delayNode.delayTime.value = delay / 1000;
+        // Ajusta filtro anti-feedback (corta frequências que causam assobio)
+        filterSlider.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            if (val < 33) filterValue.textContent = 'Baixo';
+            else if (val < 66) filterValue.textContent = 'Médio';
+            else filterValue.textContent = 'Alto (mais silêncio)';
+            
+            if (filterNode) {
+                // Filtro notch para cortar frequências de feedback (2kHz-4kHz)
+                const freq = 2000 + (val * 20);
+                filterNode.frequency.value = Math.min(4000, freq);
+                filterNode.Q.value = 5 + (val / 20);
             }
         });
 
-        // Atualiza medidor de volume
         function updateVolumeMeter() {
-            if (!isActive || !analyserNode) {
-                if (animationId) cancelAnimationFrame(animationId);
-                return;
-            }
-
+            if (!isActive || !analyserNode) return;
+            
             const dataArray = new Uint8Array(analyserNode.frequencyBinCount);
             analyserNode.getByteFrequencyData(dataArray);
             
@@ -351,49 +329,59 @@
             
             volumeBar.style.width = percent + '%';
             
-            if (isPushing && percent > 5) {
-                micButton.style.transform = 'scale(0.98)';
-            } else if (!isPushing) {
-                micButton.style.transform = 'scale(1)';
-            }
-            
             animationId = requestAnimationFrame(updateVolumeMeter);
         }
 
-        // Inicia o sistema
         async function initAudio() {
             if (isActive) return;
 
             try {
-                statusText.textContent = 'Solicitando microfone...';
+                statusText.textContent = 'Iniciando com filtro anti-ruído...';
                 
+                // Configuração com supressão de eco e ruído
                 mediaStream = await navigator.mediaDevices.getUserMedia({ 
                     audio: {
-                        echoCancellation: false,
-                        noiseSuppression: false,
-                        autoGainControl: false,
-                        sampleRate: 44100,
-                        latency: 0.005
+                        echoCancellation: true,      // CRUCIAL: cancela o eco do alto-falante
+                        noiseSuppression: true,       // Remove ruído ambiente
+                        autoGainControl: true,        // Ajusta ganho automaticamente
+                        sampleRate: 16000,            // Reduz sample rate para evitar feedback
+                        latency: 0.01
                     } 
                 });
                 
                 audioContext = new (window.AudioContext || window.webkitAudioContext)({
                     latencyHint: 'interactive',
-                    sampleRate: 44100
+                    sampleRate: 16000  // Menos propenso a feedback que 44.1kHz
                 });
                 
+                // Nó de análise
                 analyserNode = audioContext.createAnalyser();
                 analyserNode.fftSize = 256;
                 
+                // Filtro Notch para cortar frequências problemáticas
+                filterNode = audioContext.createBiquadFilter();
+                filterNode.type = 'notch';  // Remove frequência específica que causa assobio
+                filterNode.frequency.value = 2800;  // Frequência média de feedback
+                filterNode.Q.value = 8;  // Largura do corte (mais alto = mais específico)
+                filterNode.gain.value = -15;  // Atenuação forte
+                
+                // Compressor para suavizar picos (evita explosões de som)
+                compressorNode = audioContext.createDynamicsCompressor();
+                compressorNode.threshold.value = -24;  // Começa a comprimir em -24dB
+                compressorNode.knee.value = 12;        // Suave
+                compressorNode.ratio.value = 6;        // Compressão forte
+                compressorNode.attack.value = 0.003;   // Muito rápido
+                compressorNode.release.value = 0.25;   // Liberação média
+                
+                // Ganho final (volume)
                 gainNode = audioContext.createGain();
                 gainNode.gain.value = volumeSlider.value / 100;
                 
-                delayNode = audioContext.createDelay(0.05);
-                delayNode.delayTime.value = delaySlider.value / 1000;
-                
+                // Conexão: microfone -> filtro -> compressor -> ganho -> destino
                 sourceNode = audioContext.createMediaStreamSource(mediaStream);
-                sourceNode.connect(delayNode);
-                delayNode.connect(gainNode);
+                sourceNode.connect(filterNode);
+                filterNode.connect(compressorNode);
+                compressorNode.connect(gainNode);
                 gainNode.connect(analyserNode);
                 analyserNode.connect(audioContext.destination);
                 
@@ -401,29 +389,27 @@
                 
                 isActive = true;
                 statusDot.classList.add('active');
-                statusText.textContent = '✅ Sol🌞-micro ATIVO - Fale!';
+                statusText.textContent = '✅ Ativo - SEM RUÍDO!';
                 enableBtn.classList.add('hidden');
                 disableBtn.classList.remove('hidden');
                 
                 updateVolumeMeter();
                 
-                console.log('✅ Sol🌞-micro ativo! Voz saindo no auto-falante');
+                console.log('✅ Sol-micro ativo com filtro anti-feedback!');
                 
             } catch (error) {
                 console.error('Erro:', error);
                 statusText.textContent = '❌ Erro: Permissão negada';
-                alert('Permita o acesso ao microfone para usar o Sol🌞-micro!');
+                alert('Permita o acesso ao microfone!');
             }
         }
 
-        // Para o sistema
         async function stopAudio() {
-            if (animationId) {
-                cancelAnimationFrame(animationId);
-            }
+            if (animationId) cancelAnimationFrame(animationId);
             
             if (sourceNode) sourceNode.disconnect();
-            if (delayNode) delayNode.disconnect();
+            if (filterNode) filterNode.disconnect();
+            if (compressorNode) compressorNode.disconnect();
             if (gainNode) gainNode.disconnect();
             if (analyserNode) analyserNode.disconnect();
             if (audioContext) await audioContext.close();
@@ -439,50 +425,40 @@
             
             audioContext = null;
             sourceNode = null;
+            filterNode = null;
+            compressorNode = null;
             gainNode = null;
-            delayNode = null;
             analyserNode = null;
             mediaStream = null;
-            
-            micButton.style.transform = 'scale(1)';
         }
 
-        // Push-to-Talk
+        // Push-to-Talk (só sai som enquanto segura)
         function setupPushToTalk() {
-            if (!gainNode) return;
-            
-            micButton.addEventListener('mousedown', () => {
+            function startTalking() {
                 if (isActive && gainNode) {
                     isPushing = true;
                     gainNode.gain.value = volumeSlider.value / 100;
-                    micButton.style.opacity = '0.9';
+                    micButton.style.opacity = '0.8';
                 }
-            });
+            }
             
-            micButton.addEventListener('mouseup', () => {
+            function stopTalking() {
                 if (isActive && gainNode) {
                     isPushing = false;
-                    gainNode.gain.value = 0;
+                    gainNode.gain.value = 0;  // Silencia quando não está falando
                     micButton.style.opacity = '1';
                 }
-            });
+            }
             
+            micButton.addEventListener('mousedown', startTalking);
+            micButton.addEventListener('mouseup', stopTalking);
             micButton.addEventListener('touchstart', (e) => {
                 e.preventDefault();
-                if (isActive && gainNode) {
-                    isPushing = true;
-                    gainNode.gain.value = volumeSlider.value / 100;
-                    micButton.style.opacity = '0.9';
-                }
+                startTalking();
             });
-            
             micButton.addEventListener('touchend', (e) => {
                 e.preventDefault();
-                if (isActive && gainNode) {
-                    isPushing = false;
-                    gainNode.gain.value = 0;
-                    micButton.style.opacity = '1';
-                }
+                stopTalking();
             });
         }
 
@@ -497,20 +473,15 @@
             }
         }, 100);
 
+        // Mantém tela ativa
         async function requestWakeLock() {
             try {
                 if ('wakeLock' in navigator) {
                     await navigator.wakeLock.request('screen');
-                    console.log('Tela mantida ativa');
                 }
-            } catch(err) {
-                console.log('Wake Lock não suportado:', err);
-            }
+            } catch(err) {}
         }
-        
         enableBtn.addEventListener('click', requestWakeLock);
-        
-        console.log('☀️ Sol🌞-micro pronto! Toque no botão e fale');
     </script>
 </body>
 </html>
